@@ -27,7 +27,7 @@ describe('UserController', () => {
     await app.close();
   });
 
-  describe('PUT /api/users/login', () => {
+  describe('/api/users/login', () => {
     beforeEach(async () => {
       await testService.deleteUser();
       await testService.createUser();

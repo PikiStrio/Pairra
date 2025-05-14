@@ -14,7 +14,7 @@ export class TestService {
         email: 'test@test.com',
         password: hashedPassword,
         role_id: 1,
-        timeStamp: new Date()
+        timeStamp: new Date(),
       },
     });
   }
@@ -23,7 +23,18 @@ export class TestService {
     await this.prismaService.users.deleteMany({
       where: {
         name: 'test',
-      }
-    })
+      },
+    });
+  }
+
+  async createItems() {
+    await this.prismaService.items.createMany({
+      data: {
+        name: 'test',
+        price: 20000,
+        timeStamp: new Date(),
+        image: 'image/test',
+      },
+    });
   }
 }

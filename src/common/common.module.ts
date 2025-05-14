@@ -11,12 +11,7 @@ import { APP_FILTER } from '@nestjs/core';
 @Module({
   imports: [
     WinstonModule.forRoot({
-      format: winston.format.combine(
-        winston.format.printf(
-          (info) =>
-            `${info.timestamp} ${info.level}: ${JSON.stringify(info.message, null, 2)}`,
-        ),
-      ),
+      format: winston.format.json(),
       transports: [new winston.transports.Console()],
     }),
     ConfigModule.forRoot({
