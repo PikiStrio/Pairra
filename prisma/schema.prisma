@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Roles {
+  id        Int      @id @default(autoincrement()) @db.UnsignedInt
+  name      String   @db.VarChar(100)
+  timeStamp DateTime @db.Timestamp()
+  deleted   Boolean  @default(false)
+
+  Users Users[]
+}
+
+model Users {
+  id        Int      @id @default(autoincrement()) @db.UnsignedInt
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(100)
+  password  String   @db.VarChar(100)
+  role      Roles    @relation(fields: [role_id], references: [id])
+  role_id   Int      @db.UnsignedInt
+  timeStamp DateTime @db.Timestamp()
+  token     String?   @db.VarChar(255)
+  deleted   Boolean  @default(false)
+  Waitress  Orders[] @relation("WaitressToUsers")
+  Cashier   Orders[] @relation("CashierToUsers")
+}
+
+model Items {
+  id           Int            @id @default(autoincrement()) @db.UnsignedInt
+  name         String         @db.VarChar(100)
+  price        Int            @db.Int
+  image        String?        @db.VarChar(255)
+  timeStamp    DateTime       @db.Timestamp()
+  deleted      Boolean        @default(false)
+  OrderDetails OrderDetails[]
+}
+
+model Orders {
+  id           Int      @id @default(autoincrement()) @db.UnsignedInt
+  customerName String   @db.VarChar(100)
+  tableNo      Int      @db.SmallInt
+  orderDate    DateTime @db.DateTime(3)
+  orderTime    DateTime @db.Time()
+  status       String   @db.VarChar(100)
+  total        Int      @db.Int
+  waitressId   Int      @db.UnsignedInt
+  cashierId    Int      @db.UnsignedInt
+  timeStamp    DateTime @db.Timestamp()
+  deleted      Boolean  @default(false)
+
+  waitress     Users          @relation(name: "WaitressToUsers", fields: [waitressId], references: [id])
+  cashier      Users          @relation(name: "CashierToUsers", fields: [cashierId], references: [id])
+  OrderDetails OrderDetails[]
+}
+
+model OrderDetails {
+  id        Int      @id @default(autoincrement()) @db.UnsignedInt
+  orderId   Int      @db.UnsignedInt
+  itemId    Int      @db.UnsignedInt
+  timeStamp DateTime @db.Timestamp()
+  deleted   Boolean  @default(false)
+
+  order Orders @relation(fields: [orderId], references: [id])
+  item  Items  @relation(fields: [itemId], references: [id])
+}
