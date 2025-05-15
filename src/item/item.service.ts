@@ -1,8 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { PrismaService } from '../../src/common/prisma.service';
-import { GetItemResponse } from '../../src/model/item.model';
+import { PrismaService } from '../common/prisma.service';
+import { GetItemResponse } from '../model/item.model';
 import { Logger } from 'winston';
+import { Users } from '@prisma/client';
 
 @Injectable()
 export class ItemService {
@@ -25,4 +26,8 @@ export class ItemService {
     }));
   }
   
+  async postItem(user: Users) {
+    this.logger.info(`POST ITEM REQUEST ${JSON.stringify}`)
+    
+  }
 }

@@ -29,12 +29,20 @@ export class TestService {
 
   async createItems() {
     await this.prismaService.items.createMany({
-      data: {
-        name: 'test',
-        price: 20000,
-        timeStamp: new Date(),
-        image: 'image/test',
-      },
+      data: [
+        {
+          name: 'test',
+          price: 20000,
+          timeStamp: new Date(),
+          image: 'image/test',
+        },
+        {
+          name: 'test',
+          price: 20000,
+          timeStamp: new Date(),
+          image: 'image/test',
+        },
+      ],
     });
   }
 }

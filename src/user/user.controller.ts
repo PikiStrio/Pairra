@@ -3,7 +3,7 @@ import {
   LoginUserRequest,
   RegisterUserRequest,
   UserResponse,
-} from '../../src/model/user.model';
+} from '../model/user.model';
 import { UserService } from './user.service';
 
 @Controller('api/users')
